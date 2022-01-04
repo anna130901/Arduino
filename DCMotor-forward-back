@@ -1,0 +1,44 @@
+// 3 seconds forward, 1 second brake, 3 seconds back, 1 second brake
+const int pwm1 = 9 ;  //initializing pin 9 as pwm
+const int in_1 = 8 ;
+const int in_2 = 7 ;
+const int pwm2 = 4 ;  //initializing pin 4 as pwm
+const int in_3 = 6 ;
+const int in_4 = 5 ;
+void setup() {    
+  pinMode(pwm1,OUTPUT) ;    //we have to set PWM pin as output
+  pinMode(in_1,OUTPUT) ;  //Logic pins are also set as output
+  pinMode(in_2,OUTPUT) ;
+  pinMode(pwm2,OUTPUT) ;    //we have to set PWM pin as output
+  pinMode(in_3,OUTPUT) ;  //Logic pins are also set as output
+  pinMode(in_4,OUTPUT) ;
+}
+
+// Hàm loop chạy mãi mãi sau khi kết thúc hàm setup()
+void loop() {
+  digitalWrite(in_1,HIGH) ;
+  digitalWrite(in_2,LOW) ;
+  analogWrite(pwm1,255) ;
+  digitalWrite(in_3,LOW) ;
+  digitalWrite(in_4,HIGH) ;
+  analogWrite(pwm2,255) ;
+  delay(3000) ;  
+     
+  digitalWrite(in_1,HIGH) ;
+  digitalWrite(in_2,HIGH) ;
+  digitalWrite(in_3,HIGH) ;
+  digitalWrite(in_4,HIGH) ;
+  delay(1000) ;
+  
+  digitalWrite(in_1,LOW) ;
+  digitalWrite(in_2,HIGH) ;
+  digitalWrite(in_3,HIGH) ;
+  digitalWrite(in_4,LOW) ;
+  delay(3000) ;
+  
+  digitalWrite(in_1,HIGH) ;
+  digitalWrite(in_2,HIGH) ;
+  digitalWrite(in_3,HIGH) ;
+  digitalWrite(in_4,HIGH) ;
+  delay(1000) ;
+}
