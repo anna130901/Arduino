@@ -1,0 +1,112 @@
+// Motor A
+const int enA = 9;
+const int in1 = 8;'
+const int in2 = 7;
+// Motor B
+const int enB = 6;
+const int in3 = 5;
+const int in4 = 4;
+// Joystick
+const int joyVerx = A0;
+const int joyVery = A1;
+// Speed
+int MotorSpeed1 = 0;
+int MotorSpeed2 = 0;
+//
+int joyposVerx = 512;
+int joyposVery = 512;
+
+void setup() {
+
+  // put your setup code here, to run once:
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+//Motor A
+  digitalWrite(enA, LOW);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+//Motor B  
+  digitalWrite(enB, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+}
+void loop() {
+  // put your main code here, to run repeatedly:
+  joyposVerx = analogRead(joyVerx); // lay gia trị x , y
+  joyposVery = analogRead(joyVery);
+
+  if (joyposVerx < 460) // x <460
+  {
+    // Set Motor A backward
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+     // Set Motor B backward
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+
+//    joyposVerx = joyposVerx - 460;
+//    joyposVerx = joyposVerx * -1;
+
+    MotorSpeed1 = map(joyposVerx, 0, 460, 0, 255);
+    MotorSpeed2 = map(joyposVerx, 0, 460, 0, 255);
+  }
+  else if (joyposVerx > 564)
+  {
+    // Forward
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+     // Set Motor B backward
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+    
+    MotorSpeed1 = map(joyposVerx, 564, 1023, 0, 255);
+    MotorSpeed2 = map(joyposVerx, 564, 1023, 0, 255);
+  }
+  else
+  {
+    MotorSpeed1 = 0;
+    MotorSpeed2 = 0;
+  }
+  
+  
+  if (joyposVery < 460)
+  {
+    // Move Left
+
+ //   joyposVery = joyposVery - 460;
+ //   joyposVery = joyposVery * -1;
+
+    joyposVery = map(joyposVery, 0, 460, 0, 255);
+
+    MotorSpeed1 =  MotorSpeed1 - joyposVery;
+    MotorSpeed2 =  MotorSpeed2 + joyposVery;
+    
+    if ( MotorSpeed1 < 0)  MotorSpeed1 = 0;
+    if ( MotorSpeed2 > 255)  MotorSpeed2 = 255;
+  }
+  else if (joyposVery > 564)
+  {
+    //Move Right
+
+    
+    joyposVery = map(joyposVery, 564, 1023, 0, 255);
+
+    MotorSpeed1 =  MotorSpeed1 + joyposVery;
+    MotorSpeed2 =  MotorSpeed2 - joyposVery;
+    
+    if ( MotorSpeed1 > 255)  MotorSpeed1 = 255;
+    if ( MotorSpeed2 < 0)  MotorSpeed2 = 0;
+  }
+
+//------------------------
+    if ( MotorSpeed1 < 8)  MotorSpeed1 = 0;
+    if ( MotorSpeed2 < 8)  MotorSpeed2 = 0;
+
+    analogWrite(enA, MotorSpeed1);
+    analogWrite(enB, MotorSpeed2); 
+}
